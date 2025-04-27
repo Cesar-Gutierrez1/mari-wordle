@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌸 Mari's Birthday Wordle 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Sacramento&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffd6e8, #e6e6fa);
+      font-family: 'Quicksand', 'Sacramento', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      padding-top: 50px;
+    }
+    h1 {
+      font-size: 3em;
+      color: #b14aed;
+      margin-bottom: 20px;
+    }
+    form {
+      margin: 20px;
+    }
+    input[type="text"] {
+      padding: 12px;
+      font-size: 1.5em;
+      width: 220px;
+      border-radius: 10px;
+      border: 2px solid #d49dd0;
+      background: #fff0f5;
+      text-align: center;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1.5em;
+      background-color: #ff9ce3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    button:hover {
+      background-color: #e673c6;
+      transform: scale(1.05);
+    }
+    .feedback {
+      margin-top: 30px;
+      font-size: 1.8em;
+      color: #800080;
+    }
+    .word-bank {
+      margin-top: 40px;
+    }
+    .word-bank h2 {
+      color: #b14aed;
+      font-size: 1.8em;
+    }
+    .guess-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .letter {
+      display: inline-block;
+      width: 45px;
+      height: 45px;
+      line-height: 45px;
+      margin: 2px;
+      border-radius: 8px;
+      font-size: 1.5em;
+      font-weight: bold;
+      color: white;
+    }
+    .green {
+      background-color: #6aaa64;
+    }
+    .yellow {
+      background-color: #c9b458;
+    }
+    .gray {
+      background-color: #787c7e;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+  <h1>🌸 Mari's Birthday Wordle 🌸</h1>
+
+  <form method="POST">
+    <input type="text" name="guess" maxlength="4" placeholder="Your Guess" required><br><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Hint Button -->
+  <button id="hint-button" onclick="showHint()">🧠 Get Hint</button>
+
+  <!-- Hidden Pedro Hint Section -->
+  <div id="hint-section" style="display: none; margin-top: 20px;">
+    <img src="/static/pedro_hint.png" alt="Pedro Hint" width="300" style="border-radius: 20px; margin-bottom: 10px;">
+    <h3 style="color: #b14aed;">"Pedro's controversially young girlfriend" 😉</h3>
+  </div>
+
+  <div class="feedback">
+    {% if message %}
+      <p id="feedback-text">{{ message }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Word Bank Section -->
+  {% if colored_guesses %}
+  <div class="word-bank">
+    <h2>📚 Your Word Bank:</h2>
+    {% for guess in colored_guesses %}
+      <div class="guess-row">
+        {% for color, letter in guess %}
+          <div class="letter {{ color }}">{{ letter }}</div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Confetti trigger -->
+  <script>
+    const feedback = document.getElementById('feedback-text');
+    if (feedback && feedback.innerText.includes('Congratulations')) {
+      confetti({
+        particleCount: 250,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+    }
+  </script>
+
+  <!-- Pedro Hint Script -->
+  <script>
+    function showHint() {
+      document.getElementById('hint-section').style.display = 'block';
+      document.getElementById('hint-button').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
